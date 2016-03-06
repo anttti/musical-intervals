@@ -1,6 +1,6 @@
 # Musical Intervals
 
-![Current state of the application](screenshot.png)
+<img src="screenshot.png" width="300" />
 
 An iOS app made with React Native for ear-training the art of distinguishing musical intervals from eachother.
 
