@@ -125,21 +125,21 @@ const AnswerButtons = ({ isDisabled, onPress }) => {
 
 const styles = StyleSheet.create({
     buttons: {
-        flex: 0.6,
-        backgroundColor: "gray"
+        flex: 0.6
     },
     row: {
         flex: 0.2,
         flexDirection: "row",
     },
     buttonContainer: {
-        flex: 0.333,
+        flex: 0.3333333,
     },
     button: {
         flex: 1,
         backgroundColor: "#ff00ff",
         borderColor: "#ff00ff",
-        borderRadius: 0
+        borderRadius: 0,
+        marginBottom: 0
     }
 });
 
