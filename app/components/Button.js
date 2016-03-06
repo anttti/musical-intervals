@@ -1,16 +1,12 @@
 "use strict";
 
-var React = require("react-native");
-var {
+import React, {
     View,
     TouchableOpacity,
     Text,
     StyleSheet,
-    PropTypes,
-    ActivityIndicatorIOS,
-    TouchableNativeFeedback,
-    Platform
-} = React;
+    PropTypes
+} from "react-native";
 
 var Button = React.createClass({
     propTypes: Object.assign({},
@@ -19,11 +15,9 @@ var Button = React.createClass({
             disabledStyle: Text.propTypes.style,
             children: PropTypes.string.isRequired,
             isDisabled: PropTypes.bool,
-            activityIndicatorColor: PropTypes.string,
             onPress: PropTypes.func,
             onPressIn: PropTypes.func,
-            onPressOut: PropTypes.func,
-            background: (TouchableNativeFeedback.propTypes) ? TouchableNativeFeedback.propTypes.background : PropTypes.any,
+            onPressOut: PropTypes.func
         },
     ),
 
@@ -43,8 +37,7 @@ var Button = React.createClass({
                 </View>
             );
         } else {
-            // Extract Touchable props
-            var touchableProps = {
+            const touchableProps = {
                 onPress: this.props.onPress,
                 onPressIn: this.props.onPressIn,
                 onPressOut: this.props.onPressOut,
@@ -59,15 +52,12 @@ var Button = React.createClass({
     }
 });
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     button: {
-        height: 44,
-        flexDirection: "row",
-        borderWidth: 1,
-        borderRadius: 8,
-        marginBottom: 10,
-        alignSelf: "stretch",
+        height: 50,
         justifyContent: "center",
+        backgroundColor: "#50E3C2",
+        borderRadius: 100
     },
     textButton: {
         alignSelf: "center",
@@ -77,8 +67,8 @@ var styles = StyleSheet.create({
         color: "#fff"
     },
     opacity: {
-        opacity: 0.5,
-    },
+        opacity: 0.5
+    }
 });
 
-module.exports = Button;
+export default Button;

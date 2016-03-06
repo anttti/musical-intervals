@@ -20,14 +20,10 @@ const AnswerButton = ({ onPress, isDisabled, title, relativePitch }) => {
 const styles = StyleSheet.create({
     buttonContainer: {
         flex: 0.3333333,
-        padding: 10
+        padding: 5
     },
     button: {
-        flex: 1,
-        backgroundColor: "#50E3C2",
-        borderWidth: 0,
-        borderRadius: 100,
-        marginBottom: 0
+        flex: 1
     }
 });
 

@@ -67,7 +67,7 @@ const AnswerButtons = ({ isDisabled, onPress }) => {
 
 const styles = StyleSheet.create({
     buttons: {
-        flex: 0.6,
+        flex: 0.4,
         padding: 10
     },
     row: {

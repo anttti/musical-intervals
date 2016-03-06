@@ -11,6 +11,7 @@ const initialRoundState = Immutable.fromJS({
     isPlaying: false,
     answer: {
         isAttemptedAtLeastOnce: false,
+        attempts: 0,
         isCorrect: false
     },
     question: null
@@ -27,6 +28,21 @@ const getQuestion = () => {
     return Immutable.fromJS(Notes[index]);
 };
 
+const getWrongAnswerStatusMessage = (answer, correctAnswer, attempts) => {
+    const dir = answer > correctAnswer ? "Too high!" : "Too low!";
+
+    switch (attempts) {
+        case 1:
+            return "Nope!";
+        case 2:
+            return "No, that's not it!";
+        case 3:
+            return "That would be incorrect!";
+        default:
+            return `${dir} This was guess number ${attempts} already...`;
+    }
+};
+
 export default function gameState(state = initialState, action) {
     switch (action.type) {
         case NEW_ROUND:
@@ -41,7 +57,7 @@ export default function gameState(state = initialState, action) {
                 const newState = state
                     .set("isPlaying", false)
                     .setIn(["answer", "isCorrect"], true);
-                if (!state.getIn(["answer", "isAttemptedAtLeastOnce"])) {
+                if (state.getIn(["answer", "attempts"]) === 0) {
                     return newState
                         .set("statusMessage", "Correct on the first try!")
                         .update("roundsWon", rounds => rounds + 1);
@@ -50,10 +66,11 @@ export default function gameState(state = initialState, action) {
                     .set("statusMessage", "Finally! Try harder next time.");
             } else {
                 return state
-                    .set("statusMessage", action.payload > correctAnswer ?
-                        "Too high!" :
-                        "Too low!")
-                    .setIn(["answer", "isAttemptedAtLeastOnce"], true);
+                    .set("statusMessage", getWrongAnswerStatusMessage(
+                        action.payload,
+                        correctAnswer,
+                        state.getIn(["answer", "attempts"])))
+                    .updateIn(["answer", "attempts"], attempts => attempts + 1);
             }
         default:
             return state;
