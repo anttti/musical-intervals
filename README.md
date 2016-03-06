@@ -1,5 +1,7 @@
 # Musical Intervals
 
+![Current state of the application](screenshot.png)
+
 An iOS app made with React Native for ear-training the art of distinguishing musical intervals from eachother.
 
 Also, I just wanted to try React Native.
