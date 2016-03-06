@@ -8,6 +8,7 @@
   "dependencies": {
     "apsl-react-native-button": "^2.4.2",
     "immutable": "^3.7.6",
+    "lodash": "^4.6.1",
     "react-native": "^0.21.0",
     "react-native-sound": "^0.7.3",
     "react-redux": "^4.4.0",
