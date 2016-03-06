@@ -6,7 +6,12 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "apsl-react-native-button": "^2.4.2",
+    "immutable": "^3.7.6",
     "react-native": "^0.21.0",
-    "react-native-sound": "^0.7.3"
+    "react-native-sound": "^0.7.3",
+    "react-redux": "^4.4.0",
+    "redux": "^3.3.1",
+    "redux-thunk": "^1.0.3"
   }
 }
