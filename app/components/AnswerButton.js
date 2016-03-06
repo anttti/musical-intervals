@@ -1,8 +1,10 @@
+"use strict";
+
 import React, {
     StyleSheet,
     View
 } from "react-native";
-import Button from "apsl-react-native-button";
+import Button from "./Button";
 
 const AnswerButton = ({ onPress, isDisabled, title, relativePitch }) => {
     return <View style={styles.buttonContainer}>
@@ -18,12 +20,13 @@ const AnswerButton = ({ onPress, isDisabled, title, relativePitch }) => {
 const styles = StyleSheet.create({
     buttonContainer: {
         flex: 0.3333333,
+        padding: 10
     },
     button: {
         flex: 1,
-        backgroundColor: "#ff00ff",
-        borderColor: "#ff00ff",
-        borderRadius: 0,
+        backgroundColor: "#50E3C2",
+        borderWidth: 0,
+        borderRadius: 100,
         marginBottom: 0
     }
 });

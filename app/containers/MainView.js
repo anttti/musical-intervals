@@ -94,8 +94,7 @@ class MainView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#F5FCFF"
+        flex: 1
     },
     info: {
         flex: 0.4,
@@ -107,13 +106,9 @@ const styles = StyleSheet.create({
         textAlign: "center",
         margin: 10
     },
-    playButton: {
-        padding: 10,
-        backgroundColor: "#ff00ff"
-    },
     btn: {
-        backgroundColor: "#ff00ff",
-        borderColor: "#ff00ff",
+        backgroundColor: "transparent",
+        borderColor: "transparent",
         margin: 10
     }
 });
