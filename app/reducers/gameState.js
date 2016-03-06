@@ -11,21 +11,19 @@ const initialRoundState = Immutable.fromJS({
     isPlaying: false,
     answer: {
         isAttemptedAtLeastOnce: false,
-        isCorrect: false,
-        isTooHigh: false,
-        isTooLow: false
+        isCorrect: false
     },
     question: null
 });
 
 const initialState = Immutable.fromJS({
     roundsPlayed: 0,
-    roundsWon: 0
+    roundsWon: 0,
+    statusMessage: "Hit New Round to start!"
 }).merge(initialRoundState);
 
 const getQuestion = () => {
     const index = Math.floor(Math.random() * Notes.length);
-    console.log(index, Notes.length);
     return Immutable.fromJS(Notes[index]);
 };
 
@@ -35,18 +33,26 @@ export default function gameState(state = initialState, action) {
             return state.merge(initialRoundState)
                 .set("isPlaying", true)
                 .set("question", getQuestion())
+                .set("statusMessage", " ")
                 .update("roundsPlayed", rounds => rounds + 1);
         case ANSWER:
             const correctAnswer = state.getIn(["question", "relativePitch"]);
             if (action.payload === correctAnswer) {
-                return state
+                const newState = state
                     .set("isPlaying", false)
-                    .setIn(["answer", "isCorrect"], true)
-                    .update("roundsWon", rounds => rounds + 1);
+                    .setIn(["answer", "isCorrect"], true);
+                if (!state.getIn(["answer", "isAttemptedAtLeastOnce"])) {
+                    return newState
+                        .set("statusMessage", "Correct on the first try!")
+                        .update("roundsWon", rounds => rounds + 1);
+                }
+                return newState
+                    .set("statusMessage", "Finally! Try harder next time.");
             } else {
                 return state
-                    .setIn(["answer", "isTooHigh"], (action.payload > correctAnswer))
-                    .setIn(["answer", "isTooLow"], (action.payload < correctAnswer))
+                    .set("statusMessage", action.payload > correctAnswer ?
+                        "Too high!" :
+                        "Too low!")
                     .setIn(["answer", "isAttemptedAtLeastOnce"], true);
             }
         default:

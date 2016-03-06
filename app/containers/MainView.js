@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import Sound from "react-native-sound";
 import Button from "apsl-react-native-button";
 import notes from "../constants/Notes";
+import AnswerButtons from "../components/AnswerButtons";
 import * as GameStateActions from "../actions/gameState";
 
 class MainView extends Component {
@@ -57,79 +58,35 @@ class MainView extends Component {
     }
 
     render() {
-        let status = "";
-        if (!this.props.isPlaying) {
-            status = "Hit New Round to start";
-        } else {
-            status = "So which is it?";
-            if (this.props.isCorrect) {
-                status = "Correct! Hit New Round to start";
-            }
-            if (this.props.isTooHigh) {
-                status = "Too high!";
-            }
-            if (this.props.isTooLow) {
-                status = "Too low!";
-            }
-            status += " (" + this.props.correctAnswer + ")";
-        }
+        const actionButton = this.props.isPlaying ?
+            <Button style={styles.btn} onPress={this._onPlay} isDisabled={!this.props.isPlaying}>
+                Play Interval
+            </Button> :
+            <Button style={styles.btn} onPress={this._onNewRound}>
+                New Round
+            </Button>
+        const scores = this.props.isPlaying ?
+            <Text style={styles.status}>
+                Score: {this.props.roundsWon}, round: {this.props.roundsPlayed} / 10
+            </Text> :
+            <Text style={styles.status}></Text>;
+
         return (
             <View style={styles.container}>
                 <View style={styles.info}>
+                    {scores}
                     <Text style={styles.title}>
-                        Musical Intervals (Round {this.props.roundsPlayed}, won {this.props.roundsWon})
+                        {this.props.roundsPlayed === 0 ?
+                            "Musical Intervals" :
+                            `Round ${this.props.roundsPlayed}, won ${this.props.roundsWon}`
+                        }
                     </Text>
                     <Text style={styles.answer}>
-                        {status}
+                        {this.props.statusMessage}
                     </Text>
-                    <Button style={styles.btn} onPress={this._onPlay}>
-                        Play
-                    </Button>
-                    <Button style={styles.btn} onPress={this._onNewRound}>
-                        New round
-                    </Button>
+                    {actionButton}
                 </View>
-                <View style={styles.answerButtons}>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(0)}>
-                        Unison
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(1)}>
-                        Min 2nd
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(2)}>
-                        Maj 2nd
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(3)}>
-                        Min 3rd
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(4)}>
-                        Maj 3rd
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(5)}>
-                        Perfect 4th
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(6)}>
-                        Aug 4th
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(6)}>
-                        Perfect 5th
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(7)}>
-                        Min 6th
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(8)}>
-                        Maj 6th
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(9)}>
-                        Min 7th
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(10)}>
-                        Maj 7th
-                    </Button>
-                    <Button style={[styles.answerButton, styles.btn]} onPress={() => this._onAnswer(11)}>
-                        Octave
-                    </Button>
-                </View>
+                <AnswerButtons isDisabled={!this.props.isPlaying} onPress={this._onAnswer} />
             </View>
         );
     }
@@ -150,20 +107,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         margin: 10
     },
-    answerButtons: {
-        flex: 0.6,
-        flexDirection: "row",
-        flexWrap: "wrap",
-        padding: 5
-    },
-    answerButton: {
-        margin: 10,
-        width: 100,
-        height: 50,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#ff00ff"
-    },
     playButton: {
         padding: 10,
         backgroundColor: "#ff00ff"
@@ -180,11 +123,10 @@ const select = store => {
         isPlaying: store.gameState.get("isPlaying"),
         isCorrect: store.gameState.getIn(["answer", "isCorrect"]),
         isAttemptedAtLeastOnce: store.gameState.getIn(["answer", "isAttemptedAtLeastOnce"]),
-        isTooHigh: store.gameState.getIn(["answer", "isTooHigh"]),
-        isTooLow: store.gameState.getIn(["answer", "isTooLow"]),
         correctAnswer: store.gameState.getIn(["question", "relativePitch"]),
         roundsPlayed: store.gameState.get("roundsPlayed"),
-        roundsWon: store.gameState.get("roundsWon")
+        roundsWon: store.gameState.get("roundsWon"),
+        statusMessage: store.gameState.get("statusMessage")
     }
 };
 
